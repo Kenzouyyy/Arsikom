@@ -4,8 +4,8 @@ from w1thermsensor import W1ThermSensor
 import paho.mqtt.client as mqtt
 
 # Konfigurasi ThingsBoard
-THINGSBOARD_HOST = "mqtt.thingsboard.cloud"  # Host ThingsBoard
-ACCESS_TOKEN = "OuKcGJ6JeeZhn9vdNbXd"  # Token perangkat Anda
+THINGSBOARD_HOST = "xxxxxxxxxxxxxxxxxxxx"  # Host ThingsBoard
+ACCESS_TOKEN = "xxxxxxxxxxxxxxxxxxxx"  # Token perangkat Anda
 
 # Inisialisasi sensor DS18B20
 sensor = W1ThermSensor()
