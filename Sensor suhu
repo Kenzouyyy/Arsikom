@@ -1,0 +1,39 @@
+import time
+import json
+from w1thermsensor import W1ThermSensor
+import paho.mqtt.client as mqtt
+
+# Konfigurasi ThingsBoard
+THINGSBOARD_HOST = "mqtt.thingsboard.cloud"  # Host ThingsBoard
+ACCESS_TOKEN = "OuKcGJ6JeeZhn9vdNbXd"  # Token perangkat Anda
+
+# Inisialisasi sensor DS18B20
+sensor = W1ThermSensor()
+
+# Inisialisasi koneksi MQTT
+client = mqtt.Client()
+client.username_pw_set(ACCESS_TOKEN)
+client.connect(THINGSBOARD_HOST, 1883, 60)
+client.loop_start()
+
+try:
+    while True:
+        # Membaca suhu dari DS18B20
+        temperature = sensor.get_temperature()
+
+        # Membuat payload untuk ThingsBoard
+        payload = {
+            "temperature": temperature
+        }
+        # Mengirim data ke ThingsBoard
+        client.publish("v1/devices/me/telemetry", json.dumps(payload), qos=1)
+        print(f"Data terkirim: {payload}")
+
+        # Tunggu 5 detik sebelum pengiriman berikutnya
+        time.sleep(5)
+
+except KeyboardInterrupt:
+    print("\nProgram dihentikan.")
+finally:
+    client.loop_stop()
+    client.disconnect()
